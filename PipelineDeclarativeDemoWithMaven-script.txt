@@ -1,0 +1,48 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Setup') {
+            steps {
+                dir ('SpringBootJenkins') {
+                    deleteDir()
+                }
+                bat "set M2_HOME=D:/INSTALL/apache-maven-3.6.3"
+                bat "set path=D:/INSTALL/apache-maven-3.6.3/bin;%path%"
+            }
+        }
+        stage('clone repo') {
+             steps {
+                 bat "git clone https://github.com/pallavi-k1803/SpringBootJenkins.git"
+             }
+         }
+        stage('build'){
+            steps{
+                 dir ('SpringBootJenkins') {
+                    withMaven {
+                        bat "mvn clean"
+                    }
+                 }
+            }
+        }
+        stage('Test') {
+            steps {
+               dir ('SpringBootJenkins') {
+                    withMaven {
+                        bat "mvn test -f SpringBootJenkins"
+                    }
+               }
+            }
+        }
+        stage('Deploy') {
+            steps {
+                dir ('SpringBootJenkins') {
+                    withMaven {
+                    // Run Maven on a windows agent.
+                    sh "mvn package -f SpringBootJenkins"
+                    }
+                }
+            }
+        }
+    }
+}
