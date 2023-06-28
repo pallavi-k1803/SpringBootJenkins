@@ -29,7 +29,7 @@ pipeline {
             steps {
                dir ('SpringBootJenkins') {
                     withMaven {
-                        bat "mvn test -f SpringBootJenkins"
+                        bat "mvn test"
                     }
                }
             }
@@ -39,7 +39,7 @@ pipeline {
                 dir ('SpringBootJenkins') {
                     withMaven {
                     // Run Maven on a windows agent.
-                    sh "mvn package -f SpringBootJenkins"
+                    bat "mvn install"
                     }
                 }
             }
