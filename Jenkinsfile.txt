@@ -4,29 +4,23 @@ pipeline {
     stages {       
         stage('build'){
             steps{
-                 dir ('SpringBootJenkins') {
-                    withMaven {
+                withMaven {
                         bat "mvn clean"
-                    }
-                 }
+                }                
             }
         }
         stage('Test') {
             steps {
-               dir ('SpringBootJenkins') {
-                    withMaven {
-                        bat "mvn test"
-                    }
+                withMaven {
+                        bat "mvn test"                    
                }
             }
         }
         stage('Deploy') {
             steps {
-                dir ('SpringBootJenkins') {
-                    withMaven {
+                withMaven {
                     // Run Maven on a windows agent.
                     bat "mvn install"
-                    }
                 }
             }
         }
